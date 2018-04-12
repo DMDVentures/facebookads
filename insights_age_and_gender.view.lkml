@@ -1,5 +1,5 @@
 view: ad_insights_by_age_and_gender {
-  sql_table_name: facebook__instagram.ads_insights_age_and_gender ;;
+  sql_table_name: facebook_instagram.ads_insights_age_and_gender ;;
   ## STANDARD FIELDS
 
   dimension: account_id {

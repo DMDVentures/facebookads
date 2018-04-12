@@ -1,5 +1,5 @@
 view: adcreative {
-  sql_table_name: facebook__instagram.adcreative ;;
+  sql_table_name: facebook_instagram.adcreative ;;
 
     dimension: actor_id {
       type: string

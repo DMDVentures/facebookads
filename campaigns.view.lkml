@@ -1,5 +1,5 @@
 view: campaigns {
-  sql_table_name: facebook__instagram.campaigns ;;
+  sql_table_name: facebook_instagram.campaigns ;;
 
   dimension: id {
     primary_key: yes

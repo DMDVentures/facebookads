@@ -1,5 +1,5 @@
 view: ads {
-  sql_table_name: facebook__instagram.ads ;;
+  sql_table_name: facebook_instagram.ads ;;
   # API documentation here: https://developers.facebook.com/docs/marketing-api/reference/adgroup
 
   dimension: id {
