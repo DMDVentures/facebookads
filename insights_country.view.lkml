@@ -1,5 +1,5 @@
 view: ad_insights_by_country {
-  sql_table_name: facebook__instagram.ads_insights_country ;;
+  sql_table_name: facebook_instagram.ads_insights_country ;;
   ## STANDARD FIELDS
 
   dimension: account_id {

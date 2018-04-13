@@ -1,5 +1,5 @@
 view: ad_insights_by_placement_and_device {
-  sql_table_name: facebook__instagram.ads_insights_platform_and_device ;;
+  sql_table_name: facebook_instagram.ads_insights_platform_and_device ;;
   ## STANDARD FIELDS
 
   dimension: account_id {
