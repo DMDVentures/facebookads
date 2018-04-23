@@ -1,5 +1,46 @@
 view: adcreative {
-  sql_table_name: facebook__instagram.adcreative ;;
+  derived_table: {
+    sql: SELECT
+        adcreative.id  AS id,
+        MAX(adcreative.instagram_actor_id)  AS adcreative_instagram_actor_id,
+        MAX(adcreative.call_to_action_type)  AS adcreative_call_to_action_type,
+        MAX(adcreative.image_hash)  AS adcreative_image_hash,
+        MAX(adcreative.image_url)  AS adcreative_image_url,
+        MAX(adcreative.link_url)  AS adcreative_link_url,
+        MAX(adcreative.name)  AS adcreative_name,
+        MAX(adcreative.object_story_id)  AS adcreative_object_story_id,
+        MAX(adcreative__object_story_spec.instagram_actor_id)  AS adcreative__object_story_spec_instagram_actor_id,
+        MAX(adcreative__object_story_spec__link_data.attachment_style)  AS adcreative__object_story_spec__link_data_attachment_style,
+        MAX(adcreative__object_story_spec__link_data__call_to_action.type)  AS adcreative__object_story_spec__link_data__call_to_action_type,
+        MAX(adcreative__object_story_spec__link_data__call_to_action__value.link)  AS adcreative__object_story_spec__link_data__call_to_action__value_link,
+        MAX(adcreative__object_story_spec__link_data.caption)  AS adcreative__object_story_spec__link_data_caption,
+        MAX(adcreative__object_story_spec__link_data.description)  AS adcreative__object_story_spec__link_data_description,
+        MAX(adcreative__object_story_spec__link_data.image_hash)  AS adcreative__object_story_spec__link_data_image_hash,
+        MAX(adcreative__object_story_spec__link_data.link)  AS adcreative__object_story_spec__link_data_link,
+        MAX(adcreative__object_story_spec__link_data.message)  AS adcreative__object_story_spec__link_data_message,
+        MAX(adcreative__object_story_spec__link_data.multi_share_end_card)  AS adcreative__object_story_spec__link_data_multi_share_end_card,
+        MAX(adcreative__object_story_spec__link_data.multi_share_optimized)  AS adcreative__object_story_spec__link_data_multi_share_optimized,
+        MAX(adcreative__object_story_spec__link_data.name)  AS adcreative__object_story_spec__link_data_name,
+        MAX(adcreative__object_story_spec__link_data.picture)  AS adcreative__object_story_spec__link_data_picture,
+        MAX(adcreative__object_story_spec.page_id)  AS adcreative__object_story_spec_page_id,
+        MAX(adcreative.instagram_permalink_url)  AS adcreative_instagram_permalink_url,
+        MAX(adcreative.title)  AS adcreative_title,
+        MAX(adcreative.body)  AS adcreative_body,
+        MAX(adcreative.link_og_id)  AS adcreative_link_og_id,
+        MAX(adcreative.account_id)  AS adcreative_account_id,
+        MAX(adcreative.status)  AS adcreative_status,
+        MAX(adcreative.effective_instagram_story_id)  AS adcreative_effective_instagram_story_id,
+        MAX(adcreative.effective_object_story_id)  AS adcreative_effective_object_story_id,
+        MAX(adcreative.object_type)  AS adcreative_object_type,
+        MAX(adcreative.thumbnail_url)  AS adcreative_thumbnail_url
+      FROM facebook_instagram.adcreative  AS adcreative
+      LEFT JOIN UNNEST([adcreative.object_story_spec]) as adcreative__object_story_spec
+      LEFT JOIN UNNEST([adcreative__object_story_spec.link_data]) as adcreative__object_story_spec__link_data
+      LEFT JOIN UNNEST([adcreative__object_story_spec__link_data.call_to_action]) as adcreative__object_story_spec__link_data__call_to_action
+      LEFT JOIN UNNEST([adcreative__object_story_spec__link_data__call_to_action.value]) as adcreative__object_story_spec__link_data__call_to_action__value
+
+      GROUP BY 1 ;;
+  }
 
     dimension: actor_id {
       type: string

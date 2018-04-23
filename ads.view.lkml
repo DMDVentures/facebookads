@@ -1,6 +1,21 @@
 view: ads {
-  sql_table_name: facebook__instagram.ads ;;
-  # API documentation here: https://developers.facebook.com/docs/marketing-api/reference/adgroup
+  derived_table: {
+    sql: SELECT
+
+id,
+MAX(account_id) as account_id,
+MAX(adset_id) as adset_id,
+MAX(creative.id) as creative_id,
+MAX(campaign_id) as campaign_id,
+MAX(created_time) as created_time,
+MAX(effective_status) as effective_status,
+MAX(name) as name,
+MAX(targeting.age_max) as targeting_age_max,
+MAX(targeting.age_min) as targeting_age_min
+
+
+FROM `looker-31dover.facebook_instagram.ads` GROUP BY id ;;
+  }
 
   dimension: id {
     primary_key: yes
@@ -39,7 +54,7 @@ view: ads {
   #     sql: ${TABLE}.bid_type
   dimension: creative_id {
     type: string
-    sql: ${TABLE}.creative__id ;;
+    sql: ${TABLE}.creative_id ;;
 
   }
 
@@ -66,12 +81,12 @@ view: ads {
 
   dimension: targeting__age_max {
     type: number
-    sql: ${TABLE}.targeting__age_max ;;
+    sql: ${TABLE}.targeting_age_max ;;
   }
 
   dimension: targeting__age_min {
     type: number
-    sql: ${TABLE}.targeting__age_min ;;
+    sql: ${TABLE}.targeting_age_min ;;
   }
 
   measure: count {

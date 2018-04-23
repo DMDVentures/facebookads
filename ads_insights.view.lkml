@@ -1,6 +1,37 @@
 view: ad_insights {
-  sql_table_name: facebook__instagram.ads_insights ;;
-  # API documentation: https://developers.facebook.com/docs/marketing-api/insights/fields/v2.6
+  derived_table: {
+    sql: SELECT
+
+ad_id,
+adset_id,
+campaign_id,
+date_start,
+MAX(account_id) as account_id,
+MAX(campaign_name) as campaign_name,
+MAX(clicks) as clicks,
+MAX(cost_per_total_action) as cost_per_total_action,
+MAX(cpc) as cpc,
+MAX(cpm) as cpm,
+MAX(cpp) as cpp,
+MAX(ctr) as ctr,
+MAX(date_stop) as date_stop,
+MAX(frequency) as frequency,
+MAX(impressions) as impressions,
+MAX(reach) as reach,
+MAX(spend) as spend,
+MAX(total_action_value) as total_action_value,
+MAX(total_actions) as total_actions,
+MAX(ads_insights__website_ctr.value) as website_clicks,
+MAX(total_unique_actions) as total_unique_actions,
+MAX(inline_link_clicks) as inline_link_clicks,
+MAX(inline_link_click_ctr) as inline_link_click_ctr,
+MAX(cost_per_inline_link_click) as cost_per_inline_link_click
+
+
+FROM `looker-31dover.facebook_instagram.ads_insights` as ads_insights
+LEFT JOIN UNNEST(ads_insights.website_ctr) as ads_insights__website_ctr
+GROUP BY ad_id, adset_id, campaign_id, date_start ;;
+  }
 
   ## STANDARD FIELDS
 
@@ -26,7 +57,8 @@ view: ad_insights {
 
   dimension: campaign_name {
     type: string
-    sql: ${campaigns.name} ;;
+    sql: ${TABLE}.campaign_name ;;
+#     sql: ${campaigns.name} ;;
   }
 
   dimension: clicks {
@@ -209,137 +241,3 @@ view: ad_insights {
     sql: ${TABLE}.cost_per_inline_link_click ;;
   }
 }
-
-##########################################################################################################
-
-
-## FOR MORE GRANULAR ANALYSIS
-
-#   - dimension: app_store_clicks
-#     type: number
-#     sql: ${TABLE}.app_store_clicks
-#
-#   - dimension: call_to_action_clicks
-#     type: number
-#     sql: ${TABLE}.call_to_action_clicks
-#
-#   - dimension: canvas_avg_view_percent
-#     description: The average percentage of the Canvas seen
-#     type: number
-#     sql: ${TABLE}.canvas_avg_view_percent
-#
-#   - dimension: canvas_avg_view_time
-#     description: The average time spent in seconds, within a Canvas unit
-#     type: number
-#     sql: ${TABLE}.canvas_avg_view_time
-#
-#   - dimension: deeplink_clicks
-#     type: number
-#     sql: ${TABLE}.deeplink_clicks
-#
-#   - dimension: estimated_ad_recall_rate
-#     type: number
-#     sql: ${TABLE}.estimated_ad_recall_rate
-#
-#   - dimension: estimated_ad_recall_rate_lower_bound
-#     type: number
-#     sql: ${TABLE}.estimated_ad_recall_rate_lower_bound
-#
-#   - dimension: estimated_ad_recall_rate_upper_bound
-#     type: number
-#     sql: ${TABLE}.estimated_ad_recall_rate_upper_bound
-
-## UNIQUE AND INLINE FIELDS
-
-#   - dimension: cost_per_unique_click
-#     type: number
-#     sql: ${TABLE}."cost_per_unique_click#314b575e612d4acb829c87b1d81b7bbd"
-#
-#   - dimension: cost_per_inline_link_click
-#     type: number
-#     sql: ${TABLE}."cost_per_inline_link_click#01932ca7b21eb72c1e10d6cb906d6b36"
-#
-#   - dimension: cost_per_inline_post_engagement
-#     type: number
-#     sql: ${TABLE}."cost_per_inline_post_engagement#030e37f96d092f6c15fb7a41521aa227"
-#
-#   - dimension: cost_per_unique_inline_link_click
-#     type: number
-#     sql: ${TABLE}."cost_per_unique_inline_link_click#46c5d5a01cf35fb31482787435b028ff"
-#
-#   - dimension: inline_link_click_ctr2cf3b3cbfc8c2745f13ab21fdefd5ce7
-#     type: number
-#     sql: ${TABLE}."inline_link_click_ctr#2cf3b3cbfc8c2745f13ab21fdefd5ce7"
-#
-#   - dimension: inline_link_clicks
-#     type: number
-#     sql: ${TABLE}.inline_link_clicks
-#
-#   - dimension: inline_post_engagement
-#     type: number
-#     sql: ${TABLE}.inline_post_engagement
-#
-#   - dimension: relevance_score__negative_feedback
-#     type: string
-#     sql: ${TABLE}.relevance_score__negative_feedback
-#
-#   - dimension: relevance_score__positive_feedback
-#     type: string
-#     sql: ${TABLE}.relevance_score__positive_feedback
-#
-#   - dimension: relevance_score__score
-#     type: number
-#     sql: ${TABLE}.relevance_score__score
-#
-#   - dimension: relevance_score__status
-#     type: string
-#     sql: ${TABLE}.relevance_score__status
-#
-#   - dimension: social_clicks
-#     type: number
-#     sql: ${TABLE}.social_clicks
-#
-#   - dimension: social_impressions
-#     type: number
-#     sql: ${TABLE}.social_impressions
-#
-#   - dimension: social_reach
-#     type: number
-#     sql: ${TABLE}.social_reach
-
-#   - dimension: total_unique_actions
-#     description: The number of unique people who took an action such as liking your Page or installing your app as a result of your ad. For example, if the same person likes and comments on a post, they will be counted as 1 unique person.
-#     type: number
-#     sql: ${TABLE}.total_unique_actions
-#
-#   - dimension: unique_clicks
-#     type: number
-#     sql: ${TABLE}.unique_clicks
-#
-#   - dimension: unique_ctr
-#     type: number
-#     sql: ${TABLE}."unique_ctr#8eb4c1cfa3ad8ba37f49e372cf5d1cd3"
-#
-#   - dimension: unique_impressions
-#     type: number
-#     sql: ${TABLE}.unique_impressions
-#
-#   - dimension: unique_inline_link_click_ctr
-#     type: number
-#     sql: ${TABLE}."unique_inline_link_click_ctr#03ac8649f6f3371be49fa980213fe6cc"
-#
-#   - dimension: unique_inline_link_clicks
-#     type: number
-#     sql: ${TABLE}.unique_inline_link_clicks
-#
-#   - dimension: unique_link_clicks_ctr
-#     type: number
-#     sql: ${TABLE}."unique_link_clicks_ctr#aa48a871d5a64cab44a6be0bcd25a441"
-#
-#   - dimension: unique_social_clicks
-#     type: number
-#     sql: ${TABLE}.unique_social_clicks
-#
-#   - dimension: unique_social_impressions
-#     type: number
-#     sql: ${TABLE}.unique_social_impressions
