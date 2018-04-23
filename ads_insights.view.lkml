@@ -32,9 +32,6 @@ FROM `looker-31dover.facebook_instagram.ads_insights` as ads_insights
 LEFT JOIN UNNEST(ads_insights.website_ctr) as ads_insights__website_ctr
 GROUP BY ad_id, adset_id, campaign_id, date_start ;;
   }
-
-  ## STANDARD FIELDS
-
   dimension: account_id {
     type: string
     sql: ${TABLE}.account_id ;;
