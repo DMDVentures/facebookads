@@ -1,10 +1,17 @@
 view: facebook_base {
   sql_table_name: facebook_fivetran.facebook_fivetran_20_apr_18 ;;
 
-  dimension: account_id {
+  dimension: primary_key {
+    type: string
+    sql: CONCAT(${ad_id}, CAST(${date_raw} as STRING)) ;;
+    hidden: yes
+    primary_key: yes
+  }
+
+  dimension: ad_id {
     type: string
     # hidden: yes
-    sql: ${TABLE}.account_id ;;
+    sql: ${TABLE}.ad_id ;;
   }
 
   dimension_group: date {
@@ -21,15 +28,16 @@ view: facebook_base {
     sql: ${TABLE}.date ;;
   }
 
+  dimension: account_id {
+    type: string
+    # hidden: yes
+    sql: ${TABLE}.account_id ;;
+  }
+
+
   dimension: account_name {
     type: string
     sql: ${TABLE}.account_name ;;
-  }
-
-  dimension: ad_id {
-    type: string
-    # hidden: yes
-    sql: ${TABLE}.ad_id ;;
   }
 
   dimension: ad_name {
@@ -132,6 +140,7 @@ view: facebook_base {
   measure: count {
     type: count
     drill_fields: [detail*]
+    hidden: yes
   }
 
   # ----- Sets of fields for drilling ------
